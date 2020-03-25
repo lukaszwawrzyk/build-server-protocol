@@ -13,6 +13,10 @@ public class JvmEnvironmentItem {
   @NonNull
   private BuildTargetIdentifier target;
   
+  private String javaHome;
+  
+  private String javaVersion;
+  
   @NonNull
   private List<String> classpath;
   
@@ -41,6 +45,24 @@ public class JvmEnvironmentItem {
   
   public void setTarget(@NonNull final BuildTargetIdentifier target) {
     this.target = Preconditions.checkNotNull(target, "target");
+  }
+  
+  @Pure
+  public String getJavaHome() {
+    return this.javaHome;
+  }
+  
+  public void setJavaHome(final String javaHome) {
+    this.javaHome = javaHome;
+  }
+  
+  @Pure
+  public String getJavaVersion() {
+    return this.javaVersion;
+  }
+  
+  public void setJavaVersion(final String javaVersion) {
+    this.javaVersion = javaVersion;
   }
   
   @Pure
@@ -88,6 +110,8 @@ public class JvmEnvironmentItem {
   public String toString() {
     ToStringBuilder b = new ToStringBuilder(this);
     b.add("target", this.target);
+    b.add("javaHome", this.javaHome);
+    b.add("javaVersion", this.javaVersion);
     b.add("classpath", this.classpath);
     b.add("jvmOptions", this.jvmOptions);
     b.add("workingDirectory", this.workingDirectory);
@@ -109,6 +133,16 @@ public class JvmEnvironmentItem {
       if (other.target != null)
         return false;
     } else if (!this.target.equals(other.target))
+      return false;
+    if (this.javaHome == null) {
+      if (other.javaHome != null)
+        return false;
+    } else if (!this.javaHome.equals(other.javaHome))
+      return false;
+    if (this.javaVersion == null) {
+      if (other.javaVersion != null)
+        return false;
+    } else if (!this.javaVersion.equals(other.javaVersion))
       return false;
     if (this.classpath == null) {
       if (other.classpath != null)
@@ -139,6 +173,8 @@ public class JvmEnvironmentItem {
     final int prime = 31;
     int result = 1;
     result = prime * result + ((this.target== null) ? 0 : this.target.hashCode());
+    result = prime * result + ((this.javaHome== null) ? 0 : this.javaHome.hashCode());
+    result = prime * result + ((this.javaVersion== null) ? 0 : this.javaVersion.hashCode());
     result = prime * result + ((this.classpath== null) ? 0 : this.classpath.hashCode());
     result = prime * result + ((this.jvmOptions== null) ? 0 : this.jvmOptions.hashCode());
     result = prime * result + ((this.workingDirectory== null) ? 0 : this.workingDirectory.hashCode());

@@ -578,19 +578,31 @@ object TestParamsDataKind {
     targets: List[BuildTargetIdentifier]
 )
 
+@JsonCodec final case class JvmEnvironmentItem(
+    target: BuildTargetIdentifier,
+    javaHome: Option[Uri],
+    javaVersion: Option[String],
+    classpath: List[String],
+    jvmOptions: List[String],
+    workingDirectory: String,
+    environmentVariables: Map[String, String]
+)
 
 @JsonCodec final case class JvmTestEnvironmentParams(
     targets: List[BuildTargetIdentifier],
     originId: Option[String]
 )
 
-@JsonCodec final case class JvmEnvironmentItem(
-    target: BuildTargetIdentifier,
-    classpath: List[String],
-    jvmOptions: List[String],
-    workingDirectory: String,
-    environmentVariables: Map[String, String]
+@JsonCodec final case class JvmEnvironmentParams(
+    targets: List[BuildTargetIdentifier],
+    originId: Option[String]
 )
+
+
+@JsonCodec final case class JvmEnvironmentResult(
+    items: List[JvmEnvironmentItem]
+)
+
 
 @JsonCodec final case class JvmTestEnvironmentResult(
     items: List[JvmEnvironmentItem]

@@ -209,19 +209,29 @@ class HappyMockServer(base: File, val logger: Logger, implicit val client: Langu
   private def asDirUri(path: Path): Uri =
     Uri(path.toUri.toString + "/")
 
+  override def jvmEnvironment(params: JvmEnvironmentParams): BspResponse[JvmEnvironmentResult] = {
+    val result = JvmEnvironmentResult(List(jvmEnvironmentItem))
+    Task(Right(result))
+  }
+
   override def jvmTestEnvironment(params: JvmTestEnvironmentParams): BspResponse[JvmTestEnvironmentResult] = {
+    val result = JvmTestEnvironmentResult(List(jvmEnvironmentItem))
+    Task(Right(result))
+  }
+
+  private def jvmEnvironmentItem = {
     val classpath = List("scala-library.jar")
     val jvmOptions = List("-Xms256m")
-    val environmentVariables = Map("A"->"a")
+    val environmentVariables = Map("A" -> "a")
     val workdir = "/tmp"
-    val item1 = JvmEnvironmentItem(
+    JvmEnvironmentItem(
       target = target1,
+      javaHome = Some(Uri(new File("/tmp/jdk").toURI)),
+      javaVersion = Some("1.8"),
       classpath = classpath,
       jvmOptions = jvmOptions,
       workingDirectory = workdir,
       environmentVariables = environmentVariables
     )
-    val result = JvmTestEnvironmentResult(List(item1))
-    Task(Right(result))
   }
 }
